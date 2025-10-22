@@ -5,12 +5,23 @@ Data$Arquitectura <- as.factor(Data$Arquitectura)
 Data$Efectos <- as.factor(Data$Efectos)
 Data$Resolucion <- as.factor(Data$Resolucion)
 
+# ==============================================================
+# CANTIDAD DE REPETICIONES POR EXPERIMENTO
+# ==============================================================
+# Se cuenta la cantidad de veces que aparece cada combinación de factores y se nota que se repite el 5.
+
+Data %>%
+  select(-Runtime) %>%                              
+  group_by(across(everything())) %>%                
+  summarise(Frecuencia = n(), .groups = "drop") %>% 
+  arrange(desc(Frecuencia))                         
+
+# Se verifica que todos se repiten 5 veces.
 Data %>%
   select(-Runtime) %>%                             
   group_by(across(everything())) %>%               
   summarise(Frecuencia = n(), .groups = "drop") %>%
   summarise(ValoresUnicos = n_distinct(Frecuencia))
-
 
 # ==============================================================
 # ANÁLISIS CON DATOS SIN PROCESAR
